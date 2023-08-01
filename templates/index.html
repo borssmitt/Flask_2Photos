@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>There's no free lunch!</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .photo-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .photo {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
+
+        .change-photo-button {
+            position: absolute;
+            bottom: 20px;
+            /* Отступ 20px от нижнего края контейнера */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: black;
+            color: yellow;
+            padding: 10px 20px;
+            font-size: 3rem;
+            border: none;
+            border-radius: 25px;
+            /* Округляем края кнопки */
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function changePhoto() {
+            const photo1 = document.getElementById("photo1");
+            const photo2 = document.getElementById("photo2");
+
+            // Если первая фотография видима, скрываем её и отображаем вторую
+            if (photo1.style.display !== "none") {
+                photo1.style.display = "none";
+                photo2.style.display = "block";
+            } else { // Иначе отображаем первую фотографию и скрываем вторую
+                photo1.style.display = "block";
+                photo2.style.display = "none";
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="photo-container">
+        <img id="photo1" class="photo" src="{{ url_for('static', filename='photo1.jpg') }}" alt="Photo 1">
+        <img id="photo2" class="photo" src="{{ url_for('static', filename='photo2.jpg') }}" alt="Photo 2"
+            style="display: none;">
+    </div>
+    <button class="change-photo-button" onclick="changePhoto()">Want more?</button>
+</body>
+
+</html>
