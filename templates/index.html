@@ -28,7 +28,7 @@
         .change-photo-button {
             position: absolute;
             bottom: 20px;
-            /* Отступ 20px от нижнего края контейнера */
+
             left: 50%;
             transform: translateX(-50%);
             background-color: black;
@@ -37,7 +37,7 @@
             font-size: 3rem;
             border: none;
             border-radius: 25px;
-            /* Округляем края кнопки */
+
             cursor: pointer;
         }
     </style>
@@ -46,11 +46,11 @@
             const photo1 = document.getElementById("photo1");
             const photo2 = document.getElementById("photo2");
 
-            // Если первая фотография видима, скрываем её и отображаем вторую
+
             if (photo1.style.display !== "none") {
                 photo1.style.display = "none";
                 photo2.style.display = "block";
-            } else { // Иначе отображаем первую фотографию и скрываем вторую
+            } else {
                 photo1.style.display = "block";
                 photo2.style.display = "none";
             }
