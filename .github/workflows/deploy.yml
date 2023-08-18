@@ -29,5 +29,6 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_IMAGE_NAME: my_flask_app
         run: |
-          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker pull $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:${{ github.event.workflow_run.head_commit.id }}"
+          echo "$HOST"
+          ssh -o StrictHostKeyChecking=no ubuntu@3.75.210.89 "docker pull $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:${{ github.event.workflow_run.head_commit.id }}"
           ssh -o StrictHostKeyChecking=no $USER@$HOST "docker run -d --name your-container-name -p 80:5000 $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:${{ github.event.workflow_run.head_commit.id }}"
