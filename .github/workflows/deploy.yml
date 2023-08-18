@@ -1,0 +1,33 @@
+name: EC2 Deploy
+
+on:
+  workflow_run:
+    workflows: ["Docker Build and Push"]
+    types:
+      - completed
+
+jobs:
+  deploy_to_ec2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up SSH key for deployment
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          HOST: ${{ secrets.EC2_HOST }}
+          USER: ${{ secrets.EC2_USER }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Deploy Docker image on EC2
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_IMAGE_NAME: my_flask_app
+        run: |
+          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker pull $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:${{ github.event.workflow_run.head_commit.id }}"
+          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker run -d --name your-container-name -p 80:5000 $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:${{ github.event.workflow_run.head_commit.id }}"
