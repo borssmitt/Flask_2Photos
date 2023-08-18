@@ -17,7 +17,7 @@ jobs:
       - name: Set up SSH key for deployment
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          HOST: ${{ secrets.EC2_HOST }}
+          HOST: "3.75.210.89"
           USER: ${{ secrets.EC2_USER }}
         run: |
           mkdir -p ~/.ssh
