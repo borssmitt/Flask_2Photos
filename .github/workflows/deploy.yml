@@ -17,7 +17,7 @@ jobs:
       - name: Set up SSH key for deployment
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          HOST: "35.158.243.240"
+          HOST: ${{ secrets.EC2_HOST }}
           USER: ${{ secrets.EC2_USER }}
         run: |
           mkdir -p ~/.ssh
@@ -27,8 +27,9 @@ jobs:
       - name: Deploy Docker image on EC2
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_IMAGE_NAME: "my_flask_app"
+          DOCKER_IMAGE_NAME: my_flask_app
         run: |
-          echo "$HOST"
-          ssh -o StrictHostKeyChecking=no ubuntu@35.158.243.240 "docker pull $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:${{ github.event.workflow_run.head_commit.id }}"
-          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker run -d --name your-container-name -p 80:5000 $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:${{ github.event.workflow_run.head_commit.id }}"
+          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker pull $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:${{ github.event.workflow_run.head_commit.id }}"
+          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker stop your-container-name  true"
+          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker rm your-container-name  true"
+          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker run -d --name your-container-name -p 80:80 $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:${{ github.event.workflow_run.head_commit.id }}"
