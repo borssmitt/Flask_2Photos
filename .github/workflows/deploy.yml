@@ -27,7 +27,7 @@ jobs:
       - name: Deploy Docker image on EC2
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_IMAGE_NAME: my_flask_app
+          DOCKER_IMAGE_NAME: "my_flask_app"
         run: |
           echo "$HOST"
           ssh -o StrictHostKeyChecking=no ubuntu@35.158.243.240 "docker pull $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:${{ github.event.workflow_run.head_commit.id }}"
