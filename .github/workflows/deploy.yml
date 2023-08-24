@@ -29,7 +29,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/VM-B_Key.pem $USER@$HOST hostname
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/VM-B_Key $USER@$HOST hostname
           #ssh -o StrictHostKeyChecking=no $USER@$HOST "docker pull $DOCKER_USERNAME/$DOCKER_IMAGE_NAME$:{{ github.event.workflow_run.head_commit.id }}"
           #ssh -o StrictHostKeyChecking=no $USER@$HOST "docker stop my_flask_app  true"
           #ssh -o StrictHostKeyChecking=no $USER@$HOST "docker rm my_flask_app  true"
