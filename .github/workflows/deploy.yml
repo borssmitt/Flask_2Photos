@@ -27,10 +27,9 @@ jobs:
       - name: Deploy Docker image on EC2
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}
+          DOCKER_IMAGE_NAME: my_flask_app
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/VM-B_Key $USER@$HOST hostname
-          #ssh -o StrictHostKeyChecking=no $USER@$HOST "docker pull $DOCKER_USERNAME/$DOCKER_IMAGE_NAME$:{{ github.event.workflow_run.head_commit.id }}"
-          #ssh -o StrictHostKeyChecking=no $USER@$HOST "docker stop my_flask_app  true"
-          #ssh -o StrictHostKeyChecking=no $USER@$HOST "docker rm my_flask_app  true"
-          #ssh -o StrictHostKeyChecking=no $USER@$HOST "docker run -d --name my_flask_app -p 80:80 $DOCKER_USERNAME/$DOCKER_IMAGE_NAME$:{{ github.event.workflow_run.head_commit.id }}"
+          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker pull $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:${{ github.event.workflow_run.head_commit.id }}"
+          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker stop my_flask_cont  true"
+          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker rm my_flask_cont  true"
+          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker run -d --name my_flask_cont -p 80:80 $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:${{ github.event.workflow_run.head_commit.id }}"
