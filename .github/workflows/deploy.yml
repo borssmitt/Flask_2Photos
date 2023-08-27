@@ -31,6 +31,4 @@ jobs:
           DOCKER_IMAGE_NAME: my_flask_app
         run: |
           ssh -o StrictHostKeyChecking=no $USER@$HOST "docker pull $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:e488c59"
-          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker stop my_flask_cont true"
-          ssh -o StrictHostKeyChecking=no $USER@$HOST "docker rm my_flask_cont true"
           ssh -o StrictHostKeyChecking=no $USER@$HOST "docker run -d --name my_flask_cont -p 80:80 $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:e488c59"
