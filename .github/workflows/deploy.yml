@@ -1,4 +1,9 @@
 name: EC2 Deploy
+env:
+  SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+  HOST: ${{ secrets.EC2_HOST }}
+  USER: ${{ secrets.EC2_USER }}
+  
 
 on:
   workflow_run:
@@ -15,10 +20,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up SSH key for deployment
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          HOST: ${{ secrets.EC2_HOST }}
-          USER: ${{ secrets.EC2_USER }}
         run: |
           mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
